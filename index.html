@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Пчелогард — мёд стиля в каждом укусе</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, 'Montserrat', sans-serif;
+            color: #f5f2e8;
+            line-height: 1.4;
+        }
+
+        /* чёрно-жёлтая атмосфера с сотами */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 15% 40%, rgba(255, 193, 7, 0.03) 2%, transparent 2.5%),
+                              radial-gradient(circle at 75% 85%, rgba(255, 193, 7, 0.04) 1.8%, transparent 2.2%);
+            background-size: 48px 48px, 62px 62px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* основной контейнер */
+        .site-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.8rem 2rem 4rem;
+        }
+
+        /* хедер с пчёлками */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid #f5b81b;
+            padding-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .bee-icon {
+            display: inline-flex;
+            gap: 0.6rem;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #FFD966 20%, #FFB347 70%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            color: #ddb85a;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tagline span {
+            background: #1f1b10;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* стили категорий (табы / кнопки) */
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            border-bottom: 1px solid #2c2c2c;
+            padding-bottom: 1rem;
+        }
+
+        .cat-btn {
+            background: transparent;
+            border: none;
+            padding: 0.7rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e0c87c;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 40px;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(2px);
+        }
+
+        .cat-btn.active {
+            background: #f5b81b;
+            color: #0a0a0a;
+            box-shadow: 0 6px 14px rgba(245, 184, 27, 0.3);
+        }
+
+        .cat-btn:hover:not(.active) {
+            background: #2a2416;
+            color: #ffcd6b;
+        }
+
+        /* контейнеры для каждого каталога */
+        .catalog-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .catalog-section.active-section {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* сетка карточек для мерча */
+        .merch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        /* карточка товара — именно сюда вы вставите фото */
+        .merch-card {
+            background: #12100c;
+            border-radius: 32px;
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.3s;
+            box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2e2a1f;
+        }
+
+        .merch-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 28px -12px black;
+            border-color: #f5b81b70;
+        }
+
+        /* ЗОНА ДЛЯ ФОТОГРАФИЙ МЕРЧА — именно сюда вы вставите свои изображения */
+        .merch-image {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #1e1b14;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid #f5b81b30;
+        }
+
+        /* заглушка-пчела для примера, но вы замените её на <img> */
+        .merch-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .merch-card:hover .merch-image img {
+            transform: scale(1.02);
+        }
+
+        /* плейсхолдер для подсказки (пока нет фото) — будет виден если картинка не загружена, но вы вставите свои img */
+        .image-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: #2b2419;
+            color: #ffcd7e;
+            font-size: 0.9rem;
+            gap: 8px;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .image-placeholder span:first-child {
+            font-size: 2.5rem;
+        }
+
+        .merch-info {
+            padding: 1.2rem 1.2rem 1.5rem;
+        }
+
+        .merch-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            color: #ffdd99;
+        }
+
+        .merch-price {
+            font-weight: 600;
+            color: #f5b81b;
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
+            letter-spacing: -0.2px;
+        }
+
+        .merch-desc {
+            font-size: 0.85rem;
+            color: #b9ae8c;
+            margin-top: 0.3rem;
+        }
+
+        /* дополнительная пчелиная атмосфера */
+        .bee-deco {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 42px;
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 1;
+            transition: opacity 0.2s;
+        }
+
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 0.8rem;
+            border-top: 1px solid #2a251c;
+            padding-top: 2rem;
+            color: #ad9f7a;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 700px) {
+            .site-wrapper {
+                padding: 1rem 1.2rem 2rem;
+            }
+            h1 {
+                font-size: 2.4rem;
+            }
+            .cat-btn {
+                padding: 0.4rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            .merch-grid {
+                gap: 1.2rem;
+            }
+        }
+
+        /* кастомный скролл */
+        ::-webkit-scrollbar {
+            width: 8px;
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f5b81b;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="bee-deco">🐝🍯</div>
+
+<div class="site-wrapper">
+    <div class="hero">
+        <div class="bee-icon">
+            <span>🐝</span><span>⚡</span><span>🛡️</span><span>🐝</span>
+        </div>
+        <h1>ПЧЕЛОГАРД</h1>
+        <div class="tagline">
+            <span>#жалящий_стиль</span>
+            <span>чёрно-жёлтый рой</span>
+            <span>уличный мёд</span>
+        </div>
+    </div>
+
+    <!-- навигация по каталогам: свитеры, майки, худи, аксессуары и т.д. -->
+    <div class="categories">
+        <button class="cat-btn active" data-cat="sweaters">🐝 СВИТЕРА</button>
+        <button class="cat-btn" data-cat="tees">🍯 МАЙКИ / ФУТБОЛКИ</button>
+        <button class="cat-btn" data-cat="hoodies">🧥 ХУДИ & ТОЛСТОВКИ</button>
+        <button class="cat-btn" data-cat="accessories">⛓️ АКСЕССУАРЫ</button>
+        <button class="cat-btn" data-cat="caps">🧢 ГОЛОВНЫЕ УБОРЫ</button>
+    </div>
+
+    <!-- ========= СЕКЦИЯ СВИТЕРА ========= -->
+    <div id="sweaters" class="catalog-section active-section">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;">
+            <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">🍂 Уютные свитера</h2>
+            <span style="font-size: 0.8rem; background:#1e1b14; padding: 4px 12px; border-radius: 20px;">медовый трикотаж</span>
+        </div>
+        <div class="merch-grid">
+            <!-- карточка 1: свитер -->
+            <div class="merch-card">
+                <div class="merch-image">
+                    <!-- ★★★ СЮДА ВСТАВИТЕ ВАШУ ФОТОГРАФИЮ МЕРЧА ★★★ -->
+                    <img src="https://placehold.co/600x600/2e2a1f/f5b81b?text=🐝+ФОТО+СВИТЕРА" alt="свитер пчелогард образец" style="width:100%; height:100%; object-fit:cover;">
+                    <!-- Если хотите использовать свой тег img, просто замените src -->
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Свитер «Рой»</div>
+                    <div class="merch-desc">Чёрный хлопок, вышитая пчела, жёлтые соты</div>
+                    <div class="merch-price">4 590 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/2a2419/f5b81b?text=🐝+СВИТЕР+GUARD" alt="свитер гард">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Оверсайз «Stinger»</div>
+                    <div class="merch-desc">Жёлтые вставки на рукавах, принт пчелиный улей</div>
+                    <div class="merch-price">5 290 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/1f1c14/f5b81b?text=🍯+МЕДОВЫЙ+СВИТЕР" alt="медовый свитер">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Свитер «Honeycomb»</div>
+                    <div class="merch-desc">Объёмный узор соты, мягкий флис внутри</div>
+                    <div class="merch-price">4 990 ₽</div>
+                </div>
+            </div>
+            <!-- Добавим еще одну карточку для наглядности -->
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/2c261c/f5b81b?text=🐝+ЗИМНИЙ+КОЛЛЕКТ" alt="зимний свитер">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Свитер «Winter BEE»</div>
+                    <div class="merch-desc">Шерсть, жёлтый градиент, защита от холода</div>
+                    <div class="merch-price">6 290 ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========= СЕКЦИЯ МАЙКИ / ФУТБОЛКИ ========= -->
+    <div id="tees" class="catalog-section">
+        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px; margin-bottom: 0.5rem;">👕 Майки и футболки</h2>
+        <div class="merch-grid">
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/2a2217/f5b81b?text=🐝+ФУТБОЛКА+GUARD" alt="футболка пчелогард">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Футболка «Осада»</div>
+                    <div class="merch-desc">Чёрный хлопок, крупный принт пчелы-воина</div>
+                    <div class="merch-price">2 490 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/221e15/f5b81b?text=🍯+МАЙКА+УЛЕЙ" alt="майка улей">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Майка «Hive Core»</div>
+                    <div class="merch-desc">Жёлтый логотип на спине, дышащий материал</div>
+                    <div class="merch-price">1 990 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/252018/f5b81b?text=⚡+BEE+ENERGY" alt="футболка энергия">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Футболка «Медовый удар»</div>
+                    <div class="merch-desc">Принт с эффектом сочения мёда, премиум качество</div>
+                    <div class="merch-price">2 690 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/1f1b13/f5b81b?text=🐝+BLACK+COMB" alt="черные соты">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Футболка «Black Comb»</div>
+                    <div class="merch-desc">Графика чёрных сот, желтая кайма</div>
+                    <div class="merch-price">2 290 ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========= СЕКЦИЯ ХУДИ ========= -->
+    <div id="hoodies" class="catalog-section">
+        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">🧥 Худи & Толстовки пчелогард</h2>
+        <div class="merch-grid">
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/2c251c/f5b81b?text=🐝+ХУДИ+РОЙ" alt="худи рой">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Худи «Swarm»</div>
+                    <div class="merch-desc">Капюшон с ушками-пчёлками, нашивка шеврон</div>
+                    <div class="merch-price">5 990 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/221e16/f5b81b?text=🍯+GUARD+HOODIE" alt="худи гард">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Толстовка «Defender»</div>
+                    <div class="merch-desc">Крупный принт щит с пчелой, флис 400г</div>
+                    <div class="merch-price">6 490 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/2a241a/f5b81b?text=⚡+ZIP+HOODIE" alt="худи на молнии">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Худи на молнии «Sting»</div>
+                    <div class="merch-desc">Чёрно-жёлтые вставки по бокам, карманы кенгуру</div>
+                    <div class="merch-price">6 190 ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========= СЕКЦИЯ АКСЕССУАРЫ ========= -->
+    <div id="accessories" class="catalog-section">
+        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">⛓️ Аксессуары (сумки, носки, брелоки)</h2>
+        <div class="merch-grid">
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/272118/f5b81b?text=🐝+ШОППЕР" alt="шоппер пчела">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Шоппер «Медосбор»</div>
+                    <div class="merch-desc">Хлопковая сумка с надписью ПЧЕЛОГАРД</div>
+                    <div class="merch-price">1 290 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/2b231b/f5b81b?text=🧦+НОСКИ+СОТЫ" alt="носки соты">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Носки «Honey pattern»</div>
+                    <div class="merch-desc">Набор 3 пары, желто-чёрный узор соты</div>
+                    <div class="merch-price">890 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/1f1b14/f5b81b?text=🔑+БРЕЛОК+ПЧЕЛА" alt="брелок пчела">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Брелок «Страж улья»</div>
+                    <div class="merch-desc">Металлическая пчёлка с эмалью</div>
+                    <div class="merch-price">490 ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========= СЕКЦИЯ ГОЛОВНЫЕ УБОРЫ ========= -->
+    <div id="caps" class="catalog-section">
+        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">🧢 Кепки, бини, панамы</h2>
+        <div class="merch-grid">
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/29221a/f5b81b?text=🧢+КЕПКА+GUARD" alt="кепка пчелогард">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Кепка «Worker BEE»</div>
+                    <div class="merch-desc">Чёрная, вышитый логотип, регулировка</div>
+                    <div class="merch-price">1 990 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/242018/f5b81b?text=🐝+БИНИ+СОТЫ" alt="шапка бини">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Бини «Hive winter»</div>
+                    <div class="merch-desc">Жёлтая полоса, помпон-пчёлка (съёмный)</div>
+                    <div class="merch-price">1 490 ₽</div>
+                </div>
+            </div>
+            <div class="merch-card">
+                <div class="merch-image">
+                    <img src="https://placehold.co/600x600/2c261d/f5b81b?text=🌞+ПАНАМА" alt="панама">
+                </div>
+                <div class="merch-info">
+                    <div class="merch-title">Панама «Summer Sting»</div>
+                    <div class="merch-desc">Хлопок, рисунок сот по краю полей</div>
+                    <div class="merch-price">1 790 ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <span>🐝 ПЧЕЛОГАРД — защита стиля, мёд в деталях</span>
+    </footer>
+</div>
+
+<script>
+    // динамическое переключение между каталогами
+    const catButtons = document.querySelectorAll('.cat-btn');
+    const sections = {
+        sweaters: document.getElementById('sweaters'),
+        tees: document.getElementById('tees'),
+        hoodies: document.getElementById('hoodies'),
+        accessories: document.getElementById('accessories'),
+        caps: document.getElementById('caps')
+    };
+
+    function activateCategory(catId) {
+        // скрыть все секции
+        Object.values(sections).forEach(section => {
+            if (section) section.classList.remove('active-section');
+        });
+        // показать нужную
+        if (sections[catId]) {
+            sections[catId].classList.add('active-section');
+        }
+        // обновить активную кнопку
+        catButtons.forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-cat') === catId) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    catButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const cat = btn.getAttribute('data-cat');
+            if (cat && sections[cat]) {
+                activateCategory(cat);
+            }
+        });
+    });
+
+    // небольшая дополнительная фишка: если кто-то захочет плавно открывать, инициализация
+    // проверка на наличие активной секции при загрузке
+    const defaultActive = document.querySelector('.cat-btn.active')?.getAttribute('data-cat');
+    if (defaultActive && sections[defaultActive]) {
+        activateCategory(defaultActive);
+    } else {
+        activateCategory('sweaters');
+    }
+
+    // также для удобства: при клике на карточку вы можете в будущем добавить модальное окно, но не обязательно
+    console.log('Пчелогард готов! Вставляйте свои фото в .merch-image блоки, удаляя плейсхолдеры');
+</script>
+
+<!-- 
+    ИНСТРУКЦИЯ ДЛЯ ВАС:
+    В каждом блоке с классом "merch-image" уже находится пример изображения (заглушка от placehold).
+    Чтобы вставить ФОТОГРАФИИ ВАШЕГО МЕРЧА:
+    1) Замените весь <img src="https://placehold.co/..."/> на свой тег <img src="ПУТЬ_К_ВАШЕМУ_ФАЙЛУ.jpg" alt="название">
+    2) Либо оставьте структуру, но измените src. Фотографии автоматически подстроятся под квадрат.
+    Все карточки имеют нужные стили, вы можете добавлять или удалять карточки внутри .merch-grid.
+    Цветовая схема: чёрный фон + жёлтые акценты. Дизайн с пчёлками и сотами.
+    Успехов с проектом "Пчелогард"!
+-->
+</body>
+</html>
