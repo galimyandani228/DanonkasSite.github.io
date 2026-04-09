@@ -73,9 +73,11 @@
             }
         }
 
+        /* ПОСТОЯННАЯ АНИМАЦИЯ ЗАГОЛОВКА — лёгкое покачивание как у пчелы */
         .logo {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 12px;
             background: rgba(0,0,0,0.55);
             backdrop-filter: blur(8px);
@@ -84,6 +86,18 @@
             border: 1px solid var(--yellow-hive);
             box-shadow: 0 0 12px rgba(245,184,27,0.3);
             margin-bottom: 1.5rem;
+            animation: gentleBuzz 2.2s infinite ease-in-out;
+            transform-origin: center;
+        }
+
+        /* Анимация "жужжащего" покачивания */
+        @keyframes gentleBuzz {
+            0% { transform: translate(0px, 0px) rotate(0deg); }
+            20% { transform: translate(1px, -0.5px) rotate(0.5deg); }
+            40% { transform: translate(-0.5px, 1px) rotate(-0.3deg); }
+            60% { transform: translate(1px, 0.5px) rotate(0.2deg); }
+            80% { transform: translate(-1px, -0.5px) rotate(-0.5deg); }
+            100% { transform: translate(0px, 0px) rotate(0deg); }
         }
 
         .logo i {
@@ -401,6 +415,15 @@
             .logo h1 { font-size: 1.7rem; }
             .product-title { font-size: 1.4rem; }
             .products-grid { grid-template-columns: 1fr; }
+            .logo { animation: gentleBuzzMobile 2s infinite ease-in-out; }
+        }
+
+        /* Для мобильных чуть менее выраженная анимация */
+        @keyframes gentleBuzzMobile {
+            0% { transform: translate(0px, 0px); }
+            25% { transform: translate(0.5px, -0.3px); }
+            75% { transform: translate(-0.3px, 0.5px); }
+            100% { transform: translate(0,0); }
         }
     </style>
 </head>
@@ -409,14 +432,14 @@
 <div class="container">
     <div class="hero">
         <div class="logo">
-            <i class="fas fa-bug"></i> 
+            <i class="fas fa-bee"></i>
             <h1>ПЧЕЛОГАРД</h1>
-            <i class="fas fa-hive"></i>
+            <i class="fas fa-bee"></i>
         </div>
         <div class="tagline">
-            <i class="fas fa-seedling"></i> Мерч с душой пасеки <i class="fas fa-bolt"></i> Эко-стиль & уют
+            <i class="fas fa-seedling"></i> Мерч с душой пасеки <i class="fas fa-bolt"></i> Эко-стиль и уют
         </div>
-        <p style="margin-top: 1rem; opacity: 0.8;">👕 Каждая вещь — частичка мёда и заботы. Жми на товар, чтобы оформить!</p>
+        <p style="margin-top: 1rem; opacity: 0.8;">Каждая вещь — частичка мёда и заботы. Нажми на товар, чтобы оформить заказ</p>
     </div>
 
     <!-- Футболки -->
@@ -431,12 +454,12 @@
     <div class="section-title">
         <i class="fas fa-hat-cowboy"></i>
         <span>Пасечные кепки</span>
-        <i class="fas fa-sun"></i>
+        <i class="fas fa-bee"></i>
     </div>
     <div class="products-grid" id="capsGrid"></div>
 
     <div class="footer">
-        <i class="fas fa-tint"></i> Пчелогард — натуральный стиль · Доставка по всему улью · С любовью к пчёлам 🐝
+        <i class="fas fa-bee"></i> Пчелогард — натуральный стиль · Доставка по всему улью · С любовью к пчёлам
     </div>
 </div>
 
@@ -469,21 +492,24 @@
             🍯 Выберите способ оплаты
         </div>
         <button class="confirm-order" id="confirmOrderBtn">✅ Подтвердить заказ</button>
-        <p style="font-size: 0.7rem; margin-top: 1rem; opacity: 0.6;">Нажимая «Подтвердить», вы соглашаетесь с условиями пчелиной лавки 🐝</p>
+        <p style="font-size: 0.7rem; margin-top: 1rem; opacity: 0.6;">Нажимая «Подтвердить», вы соглашаетесь с условиями пчелиной лавки</p>
     </div>
 </div>
 
 <script>
-    // ТОВАРЫ: 2 футболки + 1 кепка
+    // ТОВАРЫ: 2 футболки + 1 кепка с новыми названиями "Мерч №1", "Мерч №2", "Мерч №3"
     const products = [
-        { id: 1, name: "«Медовый страж»", desc: "Черный хлопок, желтая графика с пчелой", price: "2490 ₽", type: "tshirt", img: "" },
-        { id: 2, name: "«Золотой улей»", desc: "Лимитированная серия, медовые рукава", price: "2890 ₽", type: "tshirt", img: "" },
-        { id: 3, name: "Кепка «Пыльца»", desc: "Желто-черная вышивка, регулировка", price: "1590 ₽", type: "cap", img: "" }
+        { id: 1, name: "Мерч №1", desc: "Черный хлопок, желтая графика с пчелой", price: "2490 ₽", type: "tshirt", img: "" },
+        { id: 2, name: "Мерч №2", desc: "Лимитированная серия, медовые рукава", price: "2890 ₽", type: "tshirt", img: "" },
+        { id: 3, name: "Мерч №3", desc: "Желто-черная вышивка, регулировка", price: "1590 ₽", type: "cap", img: "" }
     ];
+
     
+
     products[0].img = "футболка1.jpg";
     products[1].img = "футболка2.jpg";
     products[2].img = "кепка1.jpg";
+
 
     function renderTshirts() {
         const tshirts = products.filter(p => p.type === "tshirt");
@@ -511,9 +537,9 @@
         if (product.img && product.img !== "") {
             imgHtml = `<img src="${product.img}" alt="${product.name}" class="product-img" onerror="this.src='https://placehold.co/500x500/2a2a1f/f5b81b?text=Пчелогард'">`;
         } else {
-            // Заглушка с иконкой
+            // Заглушка с иконкой пчелы
             imgHtml = `<div style="background: linear-gradient(135deg, #2a2a1f, #1a1a0c); height: 260px; display: flex; align-items: center; justify-content: center; border-radius: 1.2rem; margin-bottom: 1rem; border: 2px solid rgba(245,184,27,0.3);">
-                <i class="fas fa-camera" style="font-size: 3rem; color: #f5b81b; opacity: 0.6;"></i>
+                <i class="fas fa-bee" style="font-size: 3rem; color: #f5b81b; opacity: 0.7;"></i>
                 <span style="margin-left: 10px; color: #f5b81b;">Фото скоро</span>
             </div>`;
         }
@@ -522,7 +548,7 @@
         const descHtml = `<div class="product-desc">${product.desc}</div>`;
         const priceHtml = `<div class="price">${product.price}</div>`;
         const btnHtml = `<div class="order-btn"><i class="fas fa-shopping-basket"></i> Выбрать</div>`;
-        const badge = `<div class="badge-bee"><i class="fas fa-bug"></i></div>`;
+        const badge = `<div class="badge-bee"><i class="fas fa-bee"></i></div>`;
         
         cardDiv.innerHTML = imgHtml + titleHtml + descHtml + priceHtml + btnHtml + badge;
         
@@ -554,7 +580,7 @@
         modalProductNameSpan.innerText = product.name;
         modalProductPriceSpan.innerText = product.price;
         selectedPaymentMethod = null;
-        selectedMethodDisplay.innerHTML = "🍯 Выберите способ оплаты выше";
+        selectedMethodDisplay.innerHTML = "🍯 Выберите способ оплаты";
         modal.style.display = "flex";
     }
     
@@ -587,7 +613,7 @@
             return;
         }
         if (!selectedPaymentMethod) {
-            alert("🐝 Пожалуйста, выберите удобный способ оплаты перед заказом!");
+            alert("Пожалуйста, выберите удобный способ оплаты перед заказом!");
             return;
         }
         let payName = "";
@@ -596,7 +622,7 @@
         else if(selectedPaymentMethod === "crypto") payName = "криптовалютой";
         else payName = "наличными";
         
-        alert(`✨ ЗАКАЗ ОФОРМЛЕН! ✨\n\nТовар: ${currentProduct.name}\nСумма: ${currentProduct.price}\nСпособ оплаты: ${payName}\n\nСпасибо за поддержку Пчелогарда! 🐝\nВ ближайшее время наш менеджер свяжется с вами.`);
+        alert(`ЗАКАЗ ОФОРМЛЕН!\n\nТовар: ${currentProduct.name}\nСумма: ${currentProduct.price}\nСпособ оплаты: ${payName}\n\nСпасибо за поддержку Пчелогарда! В ближайшее время наш менеджер свяжется с вами.`);
         closeModalFunc();
     });
     
