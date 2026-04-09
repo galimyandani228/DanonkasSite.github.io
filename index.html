@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Пчелогард — мёд стиля в каждом укусе</title>
+    <title>Пчелогард | Мерч для настоящих пчеловодов</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,586 +14,616 @@
         }
 
         body {
-            background: #0a0a0a;
-            font-family: 'Segoe UI', 'Poppins', 'Inter', system-ui, -apple-system, 'Montserrat', sans-serif;
-            color: #f5f2e8;
+            background: linear-gradient(145deg, #0a0a0a 0%, #1a1a0c 100%);
+            font-family: 'DM Sans', 'Inter', sans-serif;
+            color: #f5e7c8;
             line-height: 1.4;
+            scroll-behavior: smooth;
         }
 
-        /* чёрно-жёлтая атмосфера с сотами */
-        .bg-pattern {
+        :root {
+            --black-deep: #0c0b08;
+            --yellow-hive: #f5b81b;
+            --yellow-glow: #ffcd4a;
+            --yellow-dark: #d89e0c;
+            --gray-muted: #2a2a1f;
+            --card-bg: rgba(20, 18, 12, 0.85);
+            --border-glow: rgba(245, 184, 27, 0.4);
+        }
+
+        @keyframes floatBg {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        body::before {
+            content: "";
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: radial-gradient(circle at 15% 40%, rgba(255, 193, 7, 0.03) 2%, transparent 2.5%),
-                              radial-gradient(circle at 75% 85%, rgba(255, 193, 7, 0.04) 1.8%, transparent 2.2%);
-            background-size: 48px 48px, 62px 62px;
+            background-image: radial-gradient(circle at 10% 30%, rgba(245,184,27,0.03) 1.5px, transparent 1.5px);
+            background-size: 28px 28px;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
+            animation: floatBg 35s linear infinite;
         }
 
-        /* основной контейнер */
-        .site-wrapper {
-            position: relative;
-            z-index: 2;
-            max-width: 1400px;
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 1.8rem 2rem 4rem;
+            padding: 2rem 1.5rem 4rem;
         }
 
-        /* хедер с пчёлками */
         .hero {
             text-align: center;
             margin-bottom: 3rem;
-            border-bottom: 2px solid #f5b81b;
-            padding-bottom: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            animation: fadeSlideDown 0.9s ease-out;
         }
 
-        .bee-icon {
+        @keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-35px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
             display: inline-flex;
-            gap: 0.6rem;
-            font-size: 2.8rem;
-            margin-bottom: 0.5rem;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+            align-items: center;
+            gap: 12px;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+            padding: 0.5rem 2rem;
+            border-radius: 80px;
+            border: 1px solid var(--yellow-hive);
+            box-shadow: 0 0 12px rgba(245,184,27,0.3);
+            margin-bottom: 1.5rem;
         }
 
-        h1 {
-            font-size: 3.2rem;
+        .logo i {
+            font-size: 2.6rem;
+            color: var(--yellow-hive);
+            filter: drop-shadow(0 0 5px #f5b81b);
+        }
+
+        .logo h1 {
+            font-size: 2.3rem;
+            font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #FFD966 20%, #FFB347 70%);
-            background-clip: text;
+            background: linear-gradient(135deg, #FFF5CF, var(--yellow-hive));
             -webkit-background-clip: text;
+            background-clip: text;
             color: transparent;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .tagline {
-            font-size: 1.2rem;
-            margin-top: 0.5rem;
-            color: #ddb85a;
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(0,0,0,0.5);
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            backdrop-filter: blur(4px);
             font-weight: 500;
+        }
+
+        .tagline i {
+            margin: 0 6px;
+            color: var(--yellow-hive);
+        }
+
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            border-left: 6px solid var(--yellow-hive);
+            padding-left: 18px;
+            margin: 2rem 0 1.8rem 0;
             display: flex;
             align-items: center;
             gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
-        .tagline span {
-            background: #1f1b10;
-            padding: 0.2rem 1rem;
-            border-radius: 40px;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
+        .section-title i {
+            color: var(--yellow-hive);
+            font-size: 1.7rem;
         }
 
-        /* стили категорий (табы / кнопки) */
-        .categories {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            border-bottom: 1px solid #2c2c2c;
-            padding-bottom: 1rem;
-        }
-
-        .cat-btn {
-            background: transparent;
-            border: none;
-            padding: 0.7rem 2rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #e0c87c;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border-radius: 40px;
-            font-family: inherit;
-            letter-spacing: 0.5px;
-            backdrop-filter: blur(2px);
-        }
-
-        .cat-btn.active {
-            background: #f5b81b;
-            color: #0a0a0a;
-            box-shadow: 0 6px 14px rgba(245, 184, 27, 0.3);
-        }
-
-        .cat-btn:hover:not(.active) {
-            background: #2a2416;
-            color: #ffcd6b;
-        }
-
-        /* контейнеры для каждого каталога */
-        .catalog-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .catalog-section.active-section {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px);}
-            to { opacity: 1; transform: translateY(0);}
-        }
-
-        /* сетка карточек для мерча */
-        .merch-grid {
+        .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2rem;
-            margin-top: 1.5rem;
         }
 
-        /* карточка товара — именно сюда вы вставите фото */
-        .merch-card {
-            background: #12100c;
-            border-radius: 32px;
-            overflow: hidden;
-            transition: transform 0.25s ease, box-shadow 0.3s;
-            box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.5);
-            border: 1px solid #2e2a1f;
-        }
-
-        .merch-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 22px 28px -12px black;
-            border-color: #f5b81b70;
-        }
-
-        /* ЗОНА ДЛЯ ФОТОГРАФИЙ МЕРЧА — именно сюда вы вставите свои изображения */
-        .merch-image {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: #1e1b14;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .product-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            border: 1px solid rgba(245, 184, 27, 0.35);
+            padding: 1.5rem 1rem 1.8rem;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
             position: relative;
             overflow: hidden;
-            border-bottom: 2px solid #f5b81b30;
         }
 
-        /* заглушка-пчела для примера, но вы замените её на <img> */
-        .merch-image img {
+        .product-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.3s;
+            height: 6px;
+            background: linear-gradient(90deg, var(--yellow-hive), #ffdd77, var(--yellow-hive));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
         }
 
-        .merch-card:hover .merch-image img {
+        .product-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: var(--yellow-hive);
+            box-shadow: 0 20px 30px -12px rgba(245,184,27,0.25);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 1.2rem;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(245,184,27,0.3);
+            transition: all 0.3s ease;
+            background: #1a1a0c;
+        }
+
+        .product-card:hover .product-img {
+            border-color: #f5b81b;
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(245,184,27,0.2);
+        }
+
+        .product-title {
+            font-size: 1.65rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: #ddd0b0;
+            margin-bottom: 1rem;
+            padding: 0 0.5rem;
+        }
+
+        .price {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--yellow-hive);
+            letter-spacing: -0.5px;
+            margin: 0.8rem 0;
+            display: inline-block;
+            background: rgba(0,0,0,0.6);
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+        }
+
+        .order-btn {
+            background: transparent;
+            border: 1.5px solid var(--yellow-hive);
+            color: var(--yellow-hive);
+            padding: 0.6rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.4rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-btn i {
+            font-size: 0.9rem;
+        }
+
+        .order-btn:hover {
+            background: var(--yellow-hive);
+            color: #1f1b0c;
+            box-shadow: 0 0 12px var(--yellow-hive);
+        }
+
+        .badge-bee {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            opacity: 0.3;
+            font-size: 1.8rem;
+            transition: 0.3s;
+        }
+
+        .product-card:hover .badge-bee {
+            opacity: 0.9;
+            transform: rotate(10deg);
+        }
+
+        @keyframes buzz {
+            0% { transform: translate(0px, 0px); }
+            25% { transform: translate(2px, -1px); }
+            75% { transform: translate(-1px, 1px); }
+            100% { transform: translate(0,0); }
+        }
+
+        .product-card:hover .badge-bee {
+            animation: buzz 0.25s ease-in-out 2;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeInModal 0.2s ease;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #14100b;
+            max-width: 480px;
+            width: 90%;
+            border-radius: 2.2rem;
+            border: 1px solid var(--yellow-hive);
+            padding: 2rem 1.8rem;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #aaa;
+            transition: 0.2s;
+        }
+        .close-modal:hover { color: var(--yellow-hive); }
+
+        .modal h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-product-name {
+            background: var(--yellow-dark);
+            display: inline-block;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            color: #1c1608;
+            font-weight: bold;
+            margin: 0.5rem 0 1rem;
+        }
+
+        .pay-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
+        .pay-btn {
+            background: #252016;
+            border: 1px solid #5e4a2a;
+            padding: 0.7rem 1.2rem;
+            border-radius: 3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #f5e2b0;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .pay-btn i {
+            font-size: 1.3rem;
+            color: var(--yellow-hive);
+        }
+
+        .pay-btn:hover {
+            background: #3a2d1b;
+            border-color: var(--yellow-hive);
+            color: white;
             transform: scale(1.02);
         }
 
-        /* плейсхолдер для подсказки (пока нет фото) — будет виден если картинка не загружена, но вы вставите свои img */
-        .image-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            background: #2b2419;
-            color: #ffcd7e;
-            font-size: 0.9rem;
-            gap: 8px;
-            text-align: center;
-            padding: 1rem;
-        }
-
-        .image-placeholder span:first-child {
-            font-size: 2.5rem;
-        }
-
-        .merch-info {
-            padding: 1.2rem 1.2rem 1.5rem;
-        }
-
-        .merch-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-            color: #ffdd99;
-        }
-
-        .merch-price {
-            font-weight: 600;
-            color: #f5b81b;
-            margin-top: 0.5rem;
+        .order-summary {
             font-size: 1.2rem;
-            letter-spacing: -0.2px;
+            background: #1f1b12;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin-top: 0.8rem;
         }
 
-        .merch-desc {
-            font-size: 0.85rem;
-            color: #b9ae8c;
-            margin-top: 0.3rem;
+        .confirm-order {
+            background: var(--yellow-hive);
+            border: none;
+            color: #0f0e07;
+            font-weight: bold;
+            padding: 0.8rem 1.6rem;
+            border-radius: 2.5rem;
+            margin-top: 1rem;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: 0.2s;
+            cursor: pointer;
         }
 
-        /* дополнительная пчелиная атмосфера */
-        .bee-deco {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            font-size: 42px;
-            opacity: 0.2;
-            pointer-events: none;
-            z-index: 1;
-            transition: opacity 0.2s;
+        .confirm-order:hover {
+            background: #ffcf5a;
+            box-shadow: 0 0 10px #ffcd4a;
         }
 
-        footer {
+        .footer {
             margin-top: 4rem;
             text-align: center;
-            font-size: 0.8rem;
-            border-top: 1px solid #2a251c;
-            padding-top: 2rem;
-            color: #ad9f7a;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
+            padding: 1.5rem;
+            border-top: 1px dashed rgba(245,184,27,0.3);
+            font-size: 0.85rem;
         }
 
-        @media (max-width: 700px) {
-            .site-wrapper {
-                padding: 1rem 1.2rem 2rem;
-            }
-            h1 {
-                font-size: 2.4rem;
-            }
-            .cat-btn {
-                padding: 0.4rem 1.2rem;
-                font-size: 0.9rem;
-            }
-            .merch-grid {
-                gap: 1.2rem;
-            }
-        }
-
-        /* кастомный скролл */
-        ::-webkit-scrollbar {
-            width: 8px;
-            background: #121212;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #f5b81b;
-            border-radius: 8px;
+        @media (max-width: 680px) {
+            .container { padding: 1rem 1rem 2rem; }
+            .logo h1 { font-size: 1.7rem; }
+            .product-title { font-size: 1.4rem; }
+            .products-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-<div class="bg-pattern"></div>
-<div class="bee-deco">🐝🍯</div>
 
-<div class="site-wrapper">
+<div class="container">
     <div class="hero">
-        <div class="bee-icon">
-            <span>🐝</span><span>⚡</span><span>🛡️</span><span>🐝</span>
+        <div class="logo">
+            <i class="fas fa-bug"></i> 
+            <h1>ПЧЕЛОГАРД</h1>
+            <i class="fas fa-hive"></i>
         </div>
-        <h1>ПЧЕЛОГАРД</h1>
         <div class="tagline">
-            <span>#жалящий_стиль</span>
-            <span>чёрно-жёлтый рой</span>
-            <span>уличный мёд</span>
+            <i class="fas fa-seedling"></i> Мерч с душой пасеки <i class="fas fa-bolt"></i> Эко-стиль & уют
         </div>
+        <p style="margin-top: 1rem; opacity: 0.8;">👕 Каждая вещь — частичка мёда и заботы. Жми на товар, чтобы оформить!</p>
     </div>
 
-    <!-- навигация по каталогам: свитеры, майки, худи, аксессуары и т.д. -->
-    <div class="categories">
-        <button class="cat-btn active" data-cat="sweaters">🐝 СВИТЕРА</button>
-        <button class="cat-btn" data-cat="tees">🍯 МАЙКИ / ФУТБОЛКИ</button>
-        <button class="cat-btn" data-cat="hoodies">🧥 ХУДИ & ТОЛСТОВКИ</button>
-        <button class="cat-btn" data-cat="accessories">⛓️ АКСЕССУАРЫ</button>
-        <button class="cat-btn" data-cat="caps">🧢 ГОЛОВНЫЕ УБОРЫ</button>
+    <!-- Футболки -->
+    <div class="section-title">
+        <i class="fas fa-tshirt"></i>
+        <span>Медовые футболки</span>
+        <i class="fas fa-bee"></i>
     </div>
+    <div class="products-grid" id="tshirtsGrid"></div>
 
-    <!-- ========= СЕКЦИЯ СВИТЕРА ========= -->
-    <div id="sweaters" class="catalog-section active-section">
-        <div style="display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap;">
-            <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">🍂 Уютные свитера</h2>
-            <span style="font-size: 0.8rem; background:#1e1b14; padding: 4px 12px; border-radius: 20px;">медовый трикотаж</span>
-        </div>
-        <div class="merch-grid">
-            <!-- карточка 1: свитер -->
-            <div class="merch-card">
-                <div class="merch-image">
-                    <!-- ★★★ СЮДА ВСТАВИТЕ ВАШУ ФОТОГРАФИЮ МЕРЧА ★★★ -->
-                    <img src="https://placehold.co/600x600/2e2a1f/f5b81b?text=🐝+ФОТО+СВИТЕРА" alt="свитер пчелогард образец" style="width:100%; height:100%; object-fit:cover;">
-                    <!-- Если хотите использовать свой тег img, просто замените src -->
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Свитер «Рой»</div>
-                    <div class="merch-desc">Чёрный хлопок, вышитая пчела, жёлтые соты</div>
-                    <div class="merch-price">4 590 ₽</div>
-                </div>
+    <!-- Кепки -->
+    <div class="section-title">
+        <i class="fas fa-hat-cowboy"></i>
+        <span>Пасечные кепки</span>
+        <i class="fas fa-sun"></i>
+    </div>
+    <div class="products-grid" id="capsGrid"></div>
+
+    <div class="footer">
+        <i class="fas fa-tint"></i> Пчелогард — натуральный стиль · Доставка по всему улью · С любовью к пчёлам 🐝
+    </div>
+</div>
+
+<!-- Модальное окно -->
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <i class="fas fa-shopping-cart" style="font-size: 2.2rem; color: var(--yellow-hive);"></i>
+        <h3>Оформление заказа</h3>
+        <div>Вы выбрали:</div>
+        <div class="modal-product-name" id="modalProductName">Название товара</div>
+        <div id="modalProductPrice" style="font-size: 1.4rem; font-weight: bold; margin-bottom: 0.5rem;"></div>
+        
+        <div class="pay-options">
+            <div class="pay-btn" data-method="card">
+                <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> Банковская карта
             </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/2a2419/f5b81b?text=🐝+СВИТЕР+GUARD" alt="свитер гард">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Оверсайз «Stinger»</div>
-                    <div class="merch-desc">Жёлтые вставки на рукавах, принт пчелиный улей</div>
-                    <div class="merch-price">5 290 ₽</div>
-                </div>
+            <div class="pay-btn" data-method="sbp">
+                <i class="fas fa-qrcode"></i> СБП / QR-код
             </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/1f1c14/f5b81b?text=🍯+МЕДОВЫЙ+СВИТЕР" alt="медовый свитер">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Свитер «Honeycomb»</div>
-                    <div class="merch-desc">Объёмный узор соты, мягкий флис внутри</div>
-                    <div class="merch-price">4 990 ₽</div>
-                </div>
+            <div class="pay-btn" data-method="crypto">
+                <i class="fab fa-bitcoin"></i> Криптовалюта (USDT)
             </div>
-            <!-- Добавим еще одну карточку для наглядности -->
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/2c261c/f5b81b?text=🐝+ЗИМНИЙ+КОЛЛЕКТ" alt="зимний свитер">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Свитер «Winter BEE»</div>
-                    <div class="merch-desc">Шерсть, жёлтый градиент, защита от холода</div>
-                    <div class="merch-price">6 290 ₽</div>
-                </div>
+            <div class="pay-btn" data-method="cash">
+                <i class="fas fa-money-bill-wave"></i> Наличные при получении
             </div>
         </div>
-    </div>
-
-    <!-- ========= СЕКЦИЯ МАЙКИ / ФУТБОЛКИ ========= -->
-    <div id="tees" class="catalog-section">
-        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px; margin-bottom: 0.5rem;">👕 Майки и футболки</h2>
-        <div class="merch-grid">
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/2a2217/f5b81b?text=🐝+ФУТБОЛКА+GUARD" alt="футболка пчелогард">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Футболка «Осада»</div>
-                    <div class="merch-desc">Чёрный хлопок, крупный принт пчелы-воина</div>
-                    <div class="merch-price">2 490 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/221e15/f5b81b?text=🍯+МАЙКА+УЛЕЙ" alt="майка улей">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Майка «Hive Core»</div>
-                    <div class="merch-desc">Жёлтый логотип на спине, дышащий материал</div>
-                    <div class="merch-price">1 990 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/252018/f5b81b?text=⚡+BEE+ENERGY" alt="футболка энергия">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Футболка «Медовый удар»</div>
-                    <div class="merch-desc">Принт с эффектом сочения мёда, премиум качество</div>
-                    <div class="merch-price">2 690 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/1f1b13/f5b81b?text=🐝+BLACK+COMB" alt="черные соты">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Футболка «Black Comb»</div>
-                    <div class="merch-desc">Графика чёрных сот, желтая кайма</div>
-                    <div class="merch-price">2 290 ₽</div>
-                </div>
-            </div>
+        
+        <div class="order-summary" id="selectedMethodDisplay">
+            🍯 Выберите способ оплаты
         </div>
+        <button class="confirm-order" id="confirmOrderBtn">✅ Подтвердить заказ</button>
+        <p style="font-size: 0.7rem; margin-top: 1rem; opacity: 0.6;">Нажимая «Подтвердить», вы соглашаетесь с условиями пчелиной лавки 🐝</p>
     </div>
-
-    <!-- ========= СЕКЦИЯ ХУДИ ========= -->
-    <div id="hoodies" class="catalog-section">
-        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">🧥 Худи & Толстовки пчелогард</h2>
-        <div class="merch-grid">
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/2c251c/f5b81b?text=🐝+ХУДИ+РОЙ" alt="худи рой">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Худи «Swarm»</div>
-                    <div class="merch-desc">Капюшон с ушками-пчёлками, нашивка шеврон</div>
-                    <div class="merch-price">5 990 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/221e16/f5b81b?text=🍯+GUARD+HOODIE" alt="худи гард">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Толстовка «Defender»</div>
-                    <div class="merch-desc">Крупный принт щит с пчелой, флис 400г</div>
-                    <div class="merch-price">6 490 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/2a241a/f5b81b?text=⚡+ZIP+HOODIE" alt="худи на молнии">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Худи на молнии «Sting»</div>
-                    <div class="merch-desc">Чёрно-жёлтые вставки по бокам, карманы кенгуру</div>
-                    <div class="merch-price">6 190 ₽</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========= СЕКЦИЯ АКСЕССУАРЫ ========= -->
-    <div id="accessories" class="catalog-section">
-        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">⛓️ Аксессуары (сумки, носки, брелоки)</h2>
-        <div class="merch-grid">
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/272118/f5b81b?text=🐝+ШОППЕР" alt="шоппер пчела">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Шоппер «Медосбор»</div>
-                    <div class="merch-desc">Хлопковая сумка с надписью ПЧЕЛОГАРД</div>
-                    <div class="merch-price">1 290 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/2b231b/f5b81b?text=🧦+НОСКИ+СОТЫ" alt="носки соты">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Носки «Honey pattern»</div>
-                    <div class="merch-desc">Набор 3 пары, желто-чёрный узор соты</div>
-                    <div class="merch-price">890 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/1f1b14/f5b81b?text=🔑+БРЕЛОК+ПЧЕЛА" alt="брелок пчела">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Брелок «Страж улья»</div>
-                    <div class="merch-desc">Металлическая пчёлка с эмалью</div>
-                    <div class="merch-price">490 ₽</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ========= СЕКЦИЯ ГОЛОВНЫЕ УБОРЫ ========= -->
-    <div id="caps" class="catalog-section">
-        <h2 style="color:#ffcd7e; border-left: 4px solid #f5b81b; padding-left: 12px;">🧢 Кепки, бини, панамы</h2>
-        <div class="merch-grid">
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/29221a/f5b81b?text=🧢+КЕПКА+GUARD" alt="кепка пчелогард">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Кепка «Worker BEE»</div>
-                    <div class="merch-desc">Чёрная, вышитый логотип, регулировка</div>
-                    <div class="merch-price">1 990 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/242018/f5b81b?text=🐝+БИНИ+СОТЫ" alt="шапка бини">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Бини «Hive winter»</div>
-                    <div class="merch-desc">Жёлтая полоса, помпон-пчёлка (съёмный)</div>
-                    <div class="merch-price">1 490 ₽</div>
-                </div>
-            </div>
-            <div class="merch-card">
-                <div class="merch-image">
-                    <img src="https://placehold.co/600x600/2c261d/f5b81b?text=🌞+ПАНАМА" alt="панама">
-                </div>
-                <div class="merch-info">
-                    <div class="merch-title">Панама «Summer Sting»</div>
-                    <div class="merch-desc">Хлопок, рисунок сот по краю полей</div>
-                    <div class="merch-price">1 790 ₽</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        <span>🐝 ПЧЕЛОГАРД — защита стиля, мёд в деталях</span>
-    </footer>
 </div>
 
 <script>
-    // динамическое переключение между каталогами
-    const catButtons = document.querySelectorAll('.cat-btn');
-    const sections = {
-        sweaters: document.getElementById('sweaters'),
-        tees: document.getElementById('tees'),
-        hoodies: document.getElementById('hoodies'),
-        accessories: document.getElementById('accessories'),
-        caps: document.getElementById('caps')
-    };
+    // ТОВАРЫ: 2 футболки + 1 кепка
+    const products = [
+        { id: 1, name: "«Медовый страж»", desc: "Черный хлопок, желтая графика с пчелой", price: "2490 ₽", type: "tshirt", img: "" },
+        { id: 2, name: "«Золотой улей»", desc: "Лимитированная серия, медовые рукава", price: "2890 ₽", type: "tshirt", img: "" },
+        { id: 3, name: "Кепка «Пыльца»", desc: "Желто-черная вышивка, регулировка", price: "1590 ₽", type: "cap", img: "" }
+    ];
+    
+    products[0].img = "футболка1.jpg";
+    products[1].img = "футболка2.jpg";
+    products[2].img = "кепка1.jpg";
 
-    function activateCategory(catId) {
-        // скрыть все секции
-        Object.values(sections).forEach(section => {
-            if (section) section.classList.remove('active-section');
-        });
-        // показать нужную
-        if (sections[catId]) {
-            sections[catId].classList.add('active-section');
-        }
-        // обновить активную кнопку
-        catButtons.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-cat') === catId) {
-                btn.classList.add('active');
-            }
-        });
+    function renderTshirts() {
+        const tshirts = products.filter(p => p.type === "tshirt");
+        const container = document.getElementById("tshirtsGrid");
+        container.innerHTML = "";
+        tshirts.forEach(item => createProductCard(item, container));
     }
 
-    catButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const cat = btn.getAttribute('data-cat');
-            if (cat && sections[cat]) {
-                activateCategory(cat);
+    function renderCaps() {
+        const caps = products.filter(p => p.type === "cap");
+        const container = document.getElementById("capsGrid");
+        container.innerHTML = "";
+        caps.forEach(item => createProductCard(item, container));
+    }
+
+    function createProductCard(product, container) {
+        const cardDiv = document.createElement("div");
+        cardDiv.classList.add("product-card");
+        cardDiv.setAttribute("data-id", product.id);
+        cardDiv.setAttribute("data-name", product.name);
+        cardDiv.setAttribute("data-price", product.price);
+        
+        // Фотография товара (если есть путь — покажет фото, иначе заглушку)
+        let imgHtml = "";
+        if (product.img && product.img !== "") {
+            imgHtml = `<img src="${product.img}" alt="${product.name}" class="product-img" onerror="this.src='https://placehold.co/500x500/2a2a1f/f5b81b?text=Пчелогард'">`;
+        } else {
+            // Заглушка с иконкой
+            imgHtml = `<div style="background: linear-gradient(135deg, #2a2a1f, #1a1a0c); height: 260px; display: flex; align-items: center; justify-content: center; border-radius: 1.2rem; margin-bottom: 1rem; border: 2px solid rgba(245,184,27,0.3);">
+                <i class="fas fa-camera" style="font-size: 3rem; color: #f5b81b; opacity: 0.6;"></i>
+                <span style="margin-left: 10px; color: #f5b81b;">Фото скоро</span>
+            </div>`;
+        }
+        
+        const titleHtml = `<div class="product-title">${product.name}</div>`;
+        const descHtml = `<div class="product-desc">${product.desc}</div>`;
+        const priceHtml = `<div class="price">${product.price}</div>`;
+        const btnHtml = `<div class="order-btn"><i class="fas fa-shopping-basket"></i> Выбрать</div>`;
+        const badge = `<div class="badge-bee"><i class="fas fa-bug"></i></div>`;
+        
+        cardDiv.innerHTML = imgHtml + titleHtml + descHtml + priceHtml + btnHtml + badge;
+        
+        const orderBtn = cardDiv.querySelector(".order-btn");
+        orderBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openModal(product);
+        });
+        cardDiv.addEventListener("click", (e) => {
+            if(e.target === orderBtn || orderBtn.contains(e.target)) return;
+            openModal(product);
+        });
+        
+        container.appendChild(cardDiv);
+    }
+    
+    // Модалка и логика
+    let currentProduct = null;
+    let selectedPaymentMethod = null;
+    const modal = document.getElementById("orderModal");
+    const modalProductNameSpan = document.getElementById("modalProductName");
+    const modalProductPriceSpan = document.getElementById("modalProductPrice");
+    const selectedMethodDisplay = document.getElementById("selectedMethodDisplay");
+    const confirmBtn = document.getElementById("confirmOrderBtn");
+    const closeModalSpan = document.querySelector(".close-modal");
+    
+    function openModal(product) {
+        currentProduct = product;
+        modalProductNameSpan.innerText = product.name;
+        modalProductPriceSpan.innerText = product.price;
+        selectedPaymentMethod = null;
+        selectedMethodDisplay.innerHTML = "🍯 Выберите способ оплаты выше";
+        modal.style.display = "flex";
+    }
+    
+    function closeModalFunc() {
+        modal.style.display = "none";
+        selectedPaymentMethod = null;
+    }
+    
+    const payBtns = document.querySelectorAll(".pay-btn");
+    payBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const method = btn.getAttribute("data-method");
+            selectedPaymentMethod = method;
+            let methodText = "";
+            switch(method) {
+                case "card": methodText = "💳 Банковская карта (Visa/Mastercard) — оплата на сайте"; break;
+                case "sbp": methodText = "📱 СБП / QR-код — моментальная оплата из приложения банка"; break;
+                case "crypto": methodText = "₿ Криптовалюта (USDT, BTC) — реквизиты после оформления"; break;
+                case "cash": methodText = "💵 Наличные при получении — оплата курьеру"; break;
+                default: methodText = "Другой способ";
             }
+            selectedMethodDisplay.innerHTML = `<i class="fas fa-check-circle"></i> Выбран способ: ${methodText}`;
         });
     });
-
-    // небольшая дополнительная фишка: если кто-то захочет плавно открывать, инициализация
-    // проверка на наличие активной секции при загрузке
-    const defaultActive = document.querySelector('.cat-btn.active')?.getAttribute('data-cat');
-    if (defaultActive && sections[defaultActive]) {
-        activateCategory(defaultActive);
-    } else {
-        activateCategory('sweaters');
-    }
-
-    // также для удобства: при клике на карточку вы можете в будущем добавить модальное окно, но не обязательно
-    console.log('Пчелогард готов! Вставляйте свои фото в .merch-image блоки, удаляя плейсхолдеры');
+    
+    confirmBtn.addEventListener("click", () => {
+        if (!currentProduct) {
+            alert("Ошибка, выберите товар заново.");
+            closeModalFunc();
+            return;
+        }
+        if (!selectedPaymentMethod) {
+            alert("🐝 Пожалуйста, выберите удобный способ оплаты перед заказом!");
+            return;
+        }
+        let payName = "";
+        if(selectedPaymentMethod === "card") payName = "банковской картой";
+        else if(selectedPaymentMethod === "sbp") payName = "СБП";
+        else if(selectedPaymentMethod === "crypto") payName = "криптовалютой";
+        else payName = "наличными";
+        
+        alert(`✨ ЗАКАЗ ОФОРМЛЕН! ✨\n\nТовар: ${currentProduct.name}\nСумма: ${currentProduct.price}\nСпособ оплаты: ${payName}\n\nСпасибо за поддержку Пчелогарда! 🐝\nВ ближайшее время наш менеджер свяжется с вами.`);
+        closeModalFunc();
+    });
+    
+    closeModalSpan.addEventListener("click", closeModalFunc);
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) closeModalFunc();
+    });
+    
+    renderTshirts();
+    renderCaps();
+    
+    // Анимация появления карточек
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.style.opacity = "0";
+        card.style.transform = "translateY(20px)";
+        card.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+        observer.observe(card);
+    });
 </script>
-
-<!-- 
-    ИНСТРУКЦИЯ ДЛЯ ВАС:
-    В каждом блоке с классом "merch-image" уже находится пример изображения (заглушка от placehold).
-    Чтобы вставить ФОТОГРАФИИ ВАШЕГО МЕРЧА:
-    1) Замените весь <img src="https://placehold.co/..."/> на свой тег <img src="ПУТЬ_К_ВАШЕМУ_ФАЙЛУ.jpg" alt="название">
-    2) Либо оставьте структуру, но измените src. Фотографии автоматически подстроятся под квадрат.
-    Все карточки имеют нужные стили, вы можете добавлять или удалять карточки внутри .merch-grid.
-    Цветовая схема: чёрный фон + жёлтые акценты. Дизайн с пчёлками и сотами.
-    Успехов с проектом "Пчелогард"!
--->
 </body>
 </html>
